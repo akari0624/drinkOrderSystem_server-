@@ -1,5 +1,6 @@
 
 
 /node_modules
+/public/vendorMenuImg_fileArr
 npm-debug.log
 .DS_Store

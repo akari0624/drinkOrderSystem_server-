@@ -7,4 +7,5 @@
 ## Development Environment  when I write these code :
 - node.JS v6.10.3
 - mongoDB  3.4.6
+- and other nodeJS dependencies list in [package.json](https://github.com/akari0624/drinkOrderSystem_server-/blob/master/package.json)
 
