@@ -1,60 +1,18 @@
-const Meal = require("./models/Meal");
+
+const vendorDAO = require('./models/VendorDAO');
+
+const UploadImg = require('./middleware/multerFileUploadMiddleware');
+
+
 
 module.exports = function(app) {
-//   app.get("/", function(req, res) {
-//     const content = "main landingPage on 8089 with nodemon";
-//     const testHTMLTemplate = `<!doctype html><html><body>${content}</body><html/>`;
-//     res.send(testHTMLTemplate);
-//   });
 
-  app.post("/vendor/meal/initlist", function(req, res, next) {
-    const mealArr = req.body.mealArr;
+// 在router.js 裡直接套用 multerFileUploadMiddleware , 就是這樣寫
+// VendorDAO 那邊不用管 file, files 怎麼來，用就對了
+// 完全看不到 middleware裡對res做了些什麼,不知道是怎麼做的...非常厲害  = =  
+  app.post("/vendor/meal/initlist", UploadImg, vendorDAO.save_one_Vendor);
 
-    console.log("router:", mealArr);
-let errMsg = '';
+ 
 
-      //  responseDefinitelyError(res); 
-      //  return;
-
-    for(let i=0;i<mealArr.length;i+=1){
-        const mealObj = mealArr[i];
-      const name = mealObj.mealName;
-      const price = mealObj.unitPrice;
-
-      // if (!name || !price) {
-
-      //             return res.status(422).send({ errorMsg: '無資料' });
-
-      //         }
-
-      const meal = new Meal({ name: name, price: price });
-
-      meal.save(function(err) {
-        if (err) {
-          
-
-          errMsg += err+';';
-
-  //        break;
-        }
-   
-      });
-    };
-
-        if(errMsg !== ''){
-            res.json({errorMsg: errMsg, successMsg: '' })
-        }else{
-
-        const successMsg = `新增${mealArr.length}筆餐點資料 ,成功！`;
-        res.json({errorMsg: '', successMsg: successMsg });
-        }
-  });
-};
-
-
-function responseDefinitelyError(res){
-
-
-    res.json({errorMsg: '故意丟回絕對的錯誤訊息', successMsg: '' });
 
 }
