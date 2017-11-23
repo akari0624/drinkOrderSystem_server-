@@ -24,7 +24,10 @@ MealSchema.pre('save',function(next){
 });
 
 
-const ModelClass = mongoose.model('meal',MealSchema);
+// const ModelClass = mongoose.model('meal',MealSchema);
 
 
-module.exports = ModelClass;
+//module.exports = ModelClass;
+
+
+module.exports = MealSchema
