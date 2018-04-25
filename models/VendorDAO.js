@@ -18,7 +18,6 @@ exports.save_one_Vendor = function(req,res,next ){
   
     const mealArr = JSON.parse(req.body.mealArr);
     
-let errMsg = '';
 
       //  responseDefinitelyError(res); 
       //  return;
@@ -37,18 +36,6 @@ let errMsg = '';
 
       //         }
 
-     
-
-  //     meal.save(function(err) {
-  //       if (err) {
-          
-
-  //         errMsg += err+';';
-
-  // //        break;
-  //       }
-   
-  //     });
 
 
   mealArrForSave.push( { name: name, price: price });

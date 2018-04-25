@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');   // mongoDB 連線控制 & ORM層
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const PORT = 8089;
 const app = express();
@@ -19,7 +20,7 @@ app.use(morgan('combined'));   // set the logger
 
 
 app.use(cors());
-app.use(express.static(__dirname+'/public'));
+app.use(express.static(path.join(__dirname,'/public')));
 
 // app.use(bodyParser.json({type:'*/*'}));
 
