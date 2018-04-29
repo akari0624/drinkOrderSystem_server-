@@ -22,7 +22,10 @@ app.use(morgan('combined'));   // set the logger
 app.use(cors());
 app.use(express.static(path.join(__dirname,'/public')));
 
+app.disable('x-powered-by');  // 不透露我們是用什麼server  container資訊給 client瀏覽器知道
 // app.use(bodyParser.json({type:'*/*'}));
+
+app.use(bodyParser({extended:false}));
 
 
 
@@ -31,6 +34,6 @@ router(app);
 
 
 app.listen(PORT,
-            ()=>console.log(`server is loadup on port:${PORT}`));
+    ()=>console.log(`server is loadup on port:${PORT}`));
 
 
