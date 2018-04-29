@@ -1,6 +1,6 @@
 {
     "env": {
-        "browser": false,
+        "browser": true,
         "commonjs": true,
         "es6": true
     },
@@ -21,6 +21,13 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "no-console": "off"
+    },
+    "globals": {
+     "next":false,
+     "__dirname":false,
+     "describe":false,
+     "it":false
     }
 }
