@@ -1,4 +1,5 @@
 const Order = require('./Order');
+const VendorModel = require('../Vendor');
 
 exports.Insert_Init_Order = (req, res, next) => {
     const vendorId = req.body.vendorId;
@@ -14,18 +15,43 @@ exports.Insert_Init_Order = (req, res, next) => {
         isEnd: false
     });
 
-    initOrder.save().then(() => {
+    initOrder
+        .save()
+        .then(() => {
+            res.json({
+                errorMsg: '',
+                orderId: initOrder._id
+            });
+        })
+        .catch(e => {
+            res.json({
+                errorMsg: e,
+                orderId: ''
+            });
+        });
+};
+
+
+
+exports.get_joinOrder_initInfo = async (req, res, next) => {
+    try {
+        const orderId = await req.body.orderId;
+        console.log('orderId :', orderId);
+
+        const orderData = await Order.findOne({ _id: orderId });
+
+        const vendorData = await VendorModel.findOne({
+            _id: orderData.vendor_id
+        });
+
         res.json({
             errorMsg: '',
-            orderId: initOrder._id
+            joinOrderInfo: {
+                orderInfo: orderData,
+                vendorInfo: vendorData
+            }
         });
-    }).catch(e => {
-
-        res.json({
-            errorMsg: e,
-            orderId: ''
-        });
-
-    });
-
+    } catch (e) {
+        res.json(res.json({ errorMsg: '發生錯誤！！', joinOrderInfo: {} }));
+    }
 };
