@@ -13,11 +13,17 @@ class ChatRoom {
         client.room = this;
     }
 
-    broadcastMessage(msg) {
+    broadcastMessage(msg, senderId) {
         this.clients.forEach(client => {
             // if (client.readyState === WebSocket.OPEN) {
             console.log('prepare to send:' + msg);
-            client.conn.send(msg);
+
+            const obj = {
+                type:'braodcastMessage',
+                senderId,
+                msg,
+            };
+            client.conn.send(JSON.stringify(obj));
             // } else {
             //     console.log('state is not turn to OPEN');
             // }
