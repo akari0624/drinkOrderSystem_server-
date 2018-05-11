@@ -9,9 +9,9 @@ module.exports = () => {
                 vendor_addreass: '高雄市XX區ＯＯ路',
                 vendor_tel: '091122334455',
                 meals: [
-                    { name: '紅茶', price: 30 },
-                    { name: '綠茶', price: 25 },
-                    { name: '烏龍茶', price: 35 }
+                    { name: '紅茶', unitPrice: {size:null,price:'30'} },
+                    { name: '綠茶', unitPrice: {size:null,price:'25'} },
+                    { name: '烏龍茶', unitPrice: {size:null,price:'40'} }
                 ],
                 menuImageString: [
                     '/usr/Morris/node/img/XXXX.png',
@@ -24,28 +24,13 @@ module.exports = () => {
                 VendorModel.findOne({ vendor_name: '茶的魔手' }).then(
                     tVendor => {
                         assert(tVendor.meals[0].name === '紅茶');
-                        assert(tVendor.meals[0].price === 30);
+                        assert(tVendor.meals[0].unitPrice[0].price === '30');
                         done(); // handle async operation
                     }
-                );
-            }).catch(err => {console.log(err); done();});
+                ).catch(err => {console.log(err); done(err);});
+            }).catch(err => {console.log(err); done(err);});
         });
 
-        it('test find', done => {
-            VendorModel.find('meals')
-                .where('price')
-                .gte(30)
-                .then(meals => {
-                    assert(meals[0].name === '紅茶');
-                    assert(meals[0].price === 30);
-                    assert(meals.length === 5);
-
-                    done();
-                }).catch(err => {console.log(err); done();});
-        });
-    });
-
-    describe('select ALL', () => {
         it('can retrieve all vendors', done => {
             VendorModel.find()
                 .exec()
@@ -56,7 +41,24 @@ module.exports = () => {
                 })
                 .catch(err => {
                     console.log(err);
+                    done(err);
+                });
+        });
+
+        it('test find', done => {
+            VendorModel.find({'meals.name':'紅茶'})
+                .select('meals')
+                .then(result => {
+                    console.log('meals', result);
+                    assert(result[0].meals[0].name === '紅茶');
+                    assert(result[0].meals[0].unitPrice[0].price === '30');
+                    assert(result[0].meals[0].unitPrice[0].size === null);
+                    //assert(meals.length === 5);
+
                     done();
+                }).catch(err => {
+                    console.log(err);
+                    done(err);
                 });
         });
     });

@@ -13,10 +13,12 @@ mongoose.connection
         console.warn('error occured:', errorMsg);
     });
 
-// beforeEach(done => {
-//     mongoose.connection.collections.vendors,
-//     drop(() => {
-//         done();
+// beforeEach(cb)   => before every `it`
+
+// beforeEach(() => {
+//     mongoose.connection.collections.vendors.drop(err => {
+//         console.log(err);
+//         console.log('collection dropped');
 //     });
 // });
 
@@ -25,4 +27,18 @@ describe('start test', () => {
         vendor_test_suite();
         done();
     });
+});
+
+// after(cb) => after all the `it`
+after(done => {
+    mongoose.connection.collections.vendors
+        .drop()
+        .then(() => {
+            console.log('collection vendors dropped');
+            done();
+        })
+        .catch(err => {
+            console.log('error occured while drop collection vendors!!', err);
+            done();
+        });
 });
