@@ -22,7 +22,7 @@ exports.save_one_Vendor = function(req, res, next) {
 
         console.log(name, price);
 
-        mealArrForSave.push({ name: name, price: price });
+        mealArrForSave.push({ name: name, unitPrice: price });
     }
 
     const uploadedImgsDatas = Array.from(req.files);
