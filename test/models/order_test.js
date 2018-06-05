@@ -9,26 +9,20 @@ module.exports = () => {
 
         it('test can insert order ', (done) => {
 
-
-            const test = async () => {
-
-                const mockVendorId = await TestHelper.insertOneVendorAndRetrieve_id();
-
-                const initOrderData = MockData.getMockInitOrderData(mockVendorId);
-
-                const mOrderModel = new OrderModel(initOrderData);
-
-                const pInitOrder = await OrderDao.insert_Init_Order(mOrderModel);
-
-                assert.equal(pInitOrder.errorMsg, '');
-
-                assert.equal(pInitOrder.orderId !== '', true);
-
-               
-            };
-
             try {
-                test();
+                (async() => {
+                    const mockVendorId = await TestHelper.insertOneVendorAndRetrieve_id();
+
+                    const initOrderData = MockData.getMockInitOrderData(mockVendorId);
+
+                    const mOrderModel = new OrderModel(initOrderData);
+
+                    const pInitOrder = await OrderDao.insert_Init_Order(mOrderModel);
+
+                    assert.equal(pInitOrder.errorMsg, '');
+
+                    assert.equal(pInitOrder.orderId !== '', true);
+                })();
                 done();
             } catch (err) {
                 console.log(err);
