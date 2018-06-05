@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const vendor_test_suite = require('./models/vendor_test');
+const order_test_suite = require('./models/order_test');
 
 mongoose.Promise = global.Promise;
 
@@ -25,6 +26,7 @@ mongoose.connection
 describe('start test', () => {
     it('vendor test suite', done => {
         vendor_test_suite();
+        order_test_suite();
         done();
     });
 });

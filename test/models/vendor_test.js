@@ -1,9 +1,11 @@
 const assert = require('assert');
 const VendorModel = require('../../models/Vendor');
 
+
+
 module.exports = () => {
     describe('sub-documents', () => {
-        it('can produce sub-document', done => {
+        it('can produce sub-document - meals-price', done => {
             const chaNoMaTe = new VendorModel({
                 vendor_name: '茶的魔手',
                 vendor_addreass: '高雄市XX區ＯＯ路',
