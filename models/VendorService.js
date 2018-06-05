@@ -47,7 +47,7 @@ exports.save_one_Vendor = function(req, res, next) {
             res.json({ errorMsg: '', successMsg: successMsg });
         })
         .catch(errMsg => {
-            res.json({ errorMsg: errMsg, successMsg: '' });
+            res.json({ errorMsg: errMsg.toString(), successMsg: '' });
         });
 };
 

@@ -12,7 +12,7 @@ const MealSchema = new Schema({
 const isNotCompletePriceArr = priceArr => {
     if (priceArr.length > 1) {
         const resultArr = priceArr.filter(p => {
-            if (!p.size || !p.price) {
+            if ((!p.size || p.size=== '') || (!p.price|| p.price === '')) {
                 return p;
             }
         });
@@ -31,15 +31,17 @@ const isNotCompletePriceArr = priceArr => {
 MealSchema.pre('save', function(next) {
     const meal = this;
     if (meal.name === '') {
-        return next('餐點名稱不可為空白！');
+        return next(new Error('餐點名稱不可為空白！'));
     }
 
     if (meal.unitPrice.length === 0) {
-        return next('餐點不可以沒有價格');
+        return next(new Error('餐點不可以沒有價格'));
     }
 
+    console.log('is price,size complete',isNotCompletePriceArr(meal.unitPrice));
+
     if (!isNotCompletePriceArr(meal.unitPrice)) {
-        return next('餐點如果有分尺寸，每種尺寸都必須有價格');
+        return next(new Error('餐點如果有分尺寸，每種尺寸都必須有價格'));
     }
 
     next();

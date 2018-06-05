@@ -1,5 +1,15 @@
-const Order = require('./Order');
+const OrderModel = require('./Order');
 const VendorModel = require('../Vendor');
+const PersonalOrderMealModel = require('./PersonalOrderMeal');
+const OrderDao = require('./OrderDao');
+
+
+const toJsonResponserMiddleWare = (req,result,next) => {
+
+    req.result = result;
+    next();
+
+};
 
 exports.Insert_Init_Order = (req, res, next) => {
     const vendorId = req.body.vendorId;
@@ -8,50 +18,36 @@ exports.Insert_Init_Order = (req, res, next) => {
 
     console.log(`received : ${vendorId}, ${coda}, ${customMessage}`);
 
-    const initOrder = new Order({
-        vendor_id: vendorId,
-        coda: coda,
-        customMessage: customMessage,
-        isEnd: false
-    });
+    const initOrder = new OrderModel({vendor_id: vendorId, coda: coda, customMessage: customMessage, isEnd: false});
 
-    initOrder
-        .save()
-        .then(() => {
-            res.json({
-                errorMsg: '',
-                orderId: initOrder._id
-            });
-        })
-        .catch(e => {
-            res.json({
-                errorMsg: e,
-                orderId: ''
-            });
-        });
+    const pResult = OrderDao.insert_Init_Order(initOrder);
+
+    pResult.then( r =>  toJsonResponserMiddleWare(req,r,next));
+
 };
 
+exports.get_joinOrder_initInfo = (req, res, next) => {
 
+    const orderId = req.body.orderId;
+    console.log('orderId :', orderId);
 
-exports.get_joinOrder_initInfo = async (req, res, next) => {
-    try {
-        const orderId = await req.body.orderId;
-        console.log('orderId :', orderId);
+    const pResult = OrderDao.get_joinOrder_initInfo(orderId);
 
-        const orderData = await Order.findOne({ _id: orderId });
+    pResult.then( r =>  toJsonResponserMiddleWare(req,r,next) );
+};
 
-        const vendorData = await VendorModel.findOne({
-            _id: orderData.vendor_id
-        });
+exports.addMealToOrder = (req, res, next) => {
 
-        res.json({
-            errorMsg: '',
-            joinOrderInfo: {
-                orderInfo: orderData,
-                vendorInfo: vendorData
-            }
-        });
-    } catch (e) {
-        res.json(res.json({ errorMsg: '發生錯誤！！', joinOrderInfo: {} }));
-    }
+    const orderInfo = req.body.orderInfo;
+    const {orderId} = orderInfo;
+    console.log('orderId :', orderId);
+
+    const orderedMeal = new PersonalOrderMealModel({
+        ...orderInfo
+    });
+
+    const pResult = OrderDao.addMealToOrder(orderedMeal, orderId);
+
+    pResult.then( r =>  toJsonResponserMiddleWare(req,r,next));
+  
 };

@@ -2,6 +2,11 @@ const VendorService = require('./models/VendorService');
 
 const UploadImg = require('./middleware/multerFileUploadMiddleware');
 const OrderService = require('./models/order_make/OrderService');
+const jsonResponserMiddleware = require('./middleware/jsonResponserFinalMiddleware');
+
+
+
+
 
 module.exports = function(app) {
     // 在router.js 裡直接套用 multerFileUploadMiddleware , 就是這樣寫
@@ -11,7 +16,9 @@ module.exports = function(app) {
 
     app.post('/vendor/retrieve/:id', VendorService.get_VendorInfo);
 
-    app.post('/order/create', OrderService.Insert_Init_Order);
+    app.post('/order/create', OrderService.Insert_Init_Order, jsonResponserMiddleware);
 
-    app.post('/order/join/get_order_info',OrderService.get_joinOrder_initInfo);
+    app.post('/order/join/get_order_info',OrderService.get_joinOrder_initInfo, jsonResponserMiddleware);
+
+    app.post('/order/join/add_order_meal_to_order', OrderService.addMealToOrder, jsonResponserMiddleware);
 };
