@@ -70,6 +70,12 @@ server.on('connection', conn => {
             const chatRoom = chatRooms.get(orderId);
             const senderId = pMsg.clientId;
             chatRoom.broadcastMessage(pMsg.message, senderId);
+
+        } else if(type === 'sending-message-order-added'){
+            const chatRoom = chatRooms.get(orderId);
+            const senderId = pMsg.clientId;
+            const someone_s_lastAddedOrder = pMsg.message;
+            chatRoom.broadcastMessage(`某人訂購了 ${someone_s_lastAddedOrder.ordered_mealName} ${someone_s_lastAddedOrder.quantity}`, senderId);
         }
     });
 
