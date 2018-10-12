@@ -54,7 +54,8 @@ const get_joinOrder_initInfo = async(orderId) => {
 const addMealToOrder = async(personalOrderMealModel, orderId) => {
 
     const result = {
-        errorMsg: ''
+        errorMsg: '',
+        savedOrderMealId:'',
     };
     try {
 
@@ -71,6 +72,8 @@ const addMealToOrder = async(personalOrderMealModel, orderId) => {
 
         await orderModel.save();
 
+        result.savedOrderMealId = savedOrderMealId;
+        
         return result;
     } catch (e) {
         console.log('in catch');
