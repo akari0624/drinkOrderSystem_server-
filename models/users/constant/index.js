@@ -1,0 +1,6 @@
+
+exports.SIGNUPTYPE = {
+  
+    FB:'facebook',
+
+};

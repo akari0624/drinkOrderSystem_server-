@@ -5,7 +5,7 @@ const OrderService = require('./models/order_make/OrderService');
 const jsonResponserMiddleware = require('./middleware/jsonResponserFinalMiddleware');
 
 
-
+const passport = require('passport');
 
 
 module.exports = function(app) {
@@ -21,4 +21,21 @@ module.exports = function(app) {
     app.post('/order/join/get_order_info',OrderService.get_joinOrder_initInfo, jsonResponserMiddleware);
 
     app.post('/order/join/add_order_meal_to_order', OrderService.addMealToOrder, jsonResponserMiddleware);
+
+
+    
+    require('./models/auth/facebook/AuthService').applyFaceBookAuthStrategy(passport);
+
+
+    app.use(passport.initialize());
+
+    app.get('/auth/facebook', passport.authenticate('facebook'));
+
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/'}),
+        (req, res) => {
+            /*req裡會多一個叫user的屬性 */
+            console.log('in final callback', req.user);
+            res.redirect(301, 'http://localhost:9999/');
+        }
+    );
 };

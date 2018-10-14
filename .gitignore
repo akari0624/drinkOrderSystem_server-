@@ -4,3 +4,5 @@
 /public/vendorMenuImg_fileArr
 npm-debug.log
 .DS_Store
+mongoAccess.js
+/conf/key.js
