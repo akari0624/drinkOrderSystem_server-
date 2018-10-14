@@ -4,7 +4,7 @@ const UploadImg = require('./middleware/multerFileUploadMiddleware');
 const OrderService = require('./models/order_make/OrderService');
 const jsonResponserMiddleware = require('./middleware/jsonResponserFinalMiddleware');
 
-
+const AuthService = require('./models/auth/facebook/AuthService');
 const passport = require('passport');
 
 
@@ -32,10 +32,6 @@ module.exports = function(app) {
     app.get('/auth/facebook', passport.authenticate('facebook'));
 
     app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/'}),
-        (req, res) => {
-            /*req裡會多一個叫user的屬性 */
-            console.log('in final callback', req.user);
-            res.redirect(301, 'http://localhost:9999/');
-        }
+        AuthService.sendBackFacebookOAuthJWTBYCookie
     );
 };

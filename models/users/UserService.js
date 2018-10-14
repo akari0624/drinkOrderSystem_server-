@@ -22,6 +22,6 @@ const FB_findOrCreateUser = (fbUserData) => {
 const UserService = {
 
     FB_findOrCreateUser
-}
+};
 
 module.exports = UserService;
