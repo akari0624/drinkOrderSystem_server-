@@ -13,13 +13,13 @@ class ChatRoom {
         client.room = this;
     }
 
-    broadcastMessage(msg, senderId) {
+    broadcastChatMessage(msg, senderId) {
         this.clients.forEach(client => {
             // if (client.readyState === WebSocket.OPEN) {
-            console.log('prepare to send:' + msg);
+            console.log('prepare to send chat:' + msg);
 
             const obj = {
-                type:'braodcastMessage',
+                type:'braodcastChatMessage',
                 senderId,
                 msg,
             };
@@ -29,6 +29,27 @@ class ChatRoom {
             // }
         });
     }
+
+
+    broadcastOrderInfoMessage(msg, senderId) {
+        this.clients.forEach(client => {
+            // if (client.readyState === WebSocket.OPEN) {
+            
+
+            const obj = {
+                type:'braodcastOrderInfoMessage',
+                senderId,
+                msg,
+            };
+            const toSendJsonString = JSON.stringify(obj);
+            console.log('prepare to send orderInfo:' + toSendJsonString);
+            client.conn.send(toSendJsonString);
+            // } else {
+            //     console.log('state is not turn to OPEN');
+            // }
+        });
+    }
+
 
     leave(client){
 
