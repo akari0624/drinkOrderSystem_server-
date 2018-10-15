@@ -55,7 +55,7 @@ const addMealToOrder = async(personalOrderMealModel, orderId) => {
 
     const result = {
         errorMsg: '',
-        savedOrderMealId:'',
+        savedOrderMeal:{},
     };
     try {
 
@@ -72,8 +72,8 @@ const addMealToOrder = async(personalOrderMealModel, orderId) => {
 
         await orderModel.save();
 
-        result.savedOrderMealId = savedOrderMealId;
-        
+        result.savedOrderMeal = savedOrderedMeal;
+
         return result;
     } catch (e) {
         console.log('in catch');

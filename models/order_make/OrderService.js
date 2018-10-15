@@ -2,7 +2,7 @@ const OrderModel = require('./Order');
 const VendorModel = require('../Vendor');
 const PersonalOrderMealModel = require('./PersonalOrderMeal');
 const OrderDao = require('./OrderDao');
-
+const ToErrMsg = require('../utils').wrapPromiseErrToErrorMsg;
 
 const toJsonResponserMiddleWare = (req,result,next) => {
 
@@ -38,9 +38,14 @@ exports.get_joinOrder_initInfo = (req, res, next) => {
 
 exports.addMealToOrder = (req, res, next) => {
 
+    console.log('addMealToOrder, user:', req.user);
+
     const orderInfo = req.body.orderInfo;
     const {orderId} = orderInfo;
     console.log('orderId :', orderId);
+
+    orderInfo.orderer_name = req.user.name;
+    orderInfo.orderer_userID = req.user.userID;
 
     const orderedMeal = new PersonalOrderMealModel({
         ...orderInfo
@@ -48,6 +53,9 @@ exports.addMealToOrder = (req, res, next) => {
 
     const pResult = OrderDao.addMealToOrder(orderedMeal, orderId);
 
-    pResult.then( r =>  toJsonResponserMiddleWare(req,r,next));
+    pResult.then( r =>  toJsonResponserMiddleWare(req,r,next)).catch(
+
+        err => toJsonResponserMiddleWare(req, ToErrMsg(err), next)
+    );
   
 };
