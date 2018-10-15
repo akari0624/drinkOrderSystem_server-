@@ -13,6 +13,10 @@ const PersonalOrderMealSchema = new Schema({
         type: String,
         default: 'this user did not leave a name'
     },
+    orderer_userID: {
+        type: String,
+        required: true
+    },
     ordered_mealName: String,
     vendorId: {
         type: String,
