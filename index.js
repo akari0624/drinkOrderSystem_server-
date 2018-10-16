@@ -13,9 +13,14 @@ const app = express();
 mongoose.Promise = global.Promise;
 
 // mongoDB 預設走port 27017          //drink_order_system 就是local mongoDB 裡的database name  有就連,沒有就創出來(超隨性ㄉ) 
-mongoose.connect('mongodb://localhost:27017/drink_order_system',{useMongoClient:true});
+// mongoose 4.3.17
+//mongoose.connect('mongodb://localhost:27017/drink_order_system',{useMongoClient:true});
 
-
+// mongose 5.3.4
+mongoose.connect('mongodb://localhost:27017/drink_order_system',{
+    useCreateIndex: true,    
+    useNewUrlParser: true
+});
 app.use(morgan('combined'));   // set the logger
 
 
@@ -23,9 +28,11 @@ app.use(cors());
 app.use(express.static(path.join(__dirname,'/public')));
 
 app.disable('x-powered-by');  // 不透露我們是用什麼server  container資訊給 client瀏覽器知道
-// app.use(bodyParser.json({type:'*/*'}));
 
-app.use(bodyParser({extended:false}));
+
+// setup bodyParser
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json({extended: true}));
 
 
 
