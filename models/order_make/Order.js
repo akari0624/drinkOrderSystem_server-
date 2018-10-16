@@ -7,7 +7,7 @@ const OrderSchema = new Schema({
     coda:{type:Number,default:0},
     customMessage:{type:String,default:''},
     isEnd:{type:Boolean,default:false},
-    orders:{type:[String],default:[]},
+    orders:[{type:Schema.Types.ObjectId, ref: 'personal_order_meals'}],
     date:{type:Date,default:Date.now()}
 },{ usePushEach: true });  // https://github.com/Automattic/mongoose/issues/5574
 

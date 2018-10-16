@@ -1,5 +1,8 @@
+const mongoose = require('mongoose');
 const Order = require('./Order');
 const VendorModel = require('../Vendor');
+const PersonalOrderMealModel = require('./PersonalOrderMeal');
+
 
 const insert_Init_Order = async(initOrderModel) => {
 
@@ -32,10 +35,11 @@ const get_joinOrder_initInfo = async(orderId) => {
 
     try {
 
-        const orderData = await Order.findOne({_id: orderId});
+        const orderData = await Order.findOne({_id: orderId}).populate('orders');
 
-        const {vendor_id: _id} = orderData;
-        const vendorData = await VendorModel.findOne({_id});
+        const { vendor_id } = orderData;
+        const vendorData = await VendorModel.findOne({_id: vendor_id});
+
 
         result.joinOrderInfo.orderInfo = orderData;
         result.joinOrderInfo.vendorInfo = vendorData;
@@ -68,7 +72,7 @@ const addMealToOrder = async(personalOrderMealModel, orderId) => {
 
         orderModel
             .orders
-            .push(savedOrderMealId);
+            .push(mongoose.Types.ObjectId(savedOrderMealId));
 
         await orderModel.save();
 
@@ -82,6 +86,15 @@ const addMealToOrder = async(personalOrderMealModel, orderId) => {
         console.log('the result', result);
         return result;
     }
+
+};
+
+/* 用personal_order_meals的_id 找多個 personal_order_meals */
+const findOrderedMealDetailsByID = async (orderedMealIDArr)  => {
+
+    const result = await PersonalOrderMealModel.find().where('_id').in(orderedMealIDArr).exec();
+
+    return result;
 
 };
 
