@@ -104,6 +104,6 @@ PersonalOrderMealSchema.pre('save', async function (next) {
 
 });
 
-const PersonalOrderMealModel = mongoose.model('personal_order_meal', PersonalOrderMealSchema);
+const PersonalOrderMealModel = mongoose.model('personal_order_meals', PersonalOrderMealSchema);
 
 module.exports = PersonalOrderMealModel;
