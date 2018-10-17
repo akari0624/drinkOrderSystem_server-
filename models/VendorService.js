@@ -8,21 +8,15 @@ function responseDefinitelyError(res) {
 exports.save_one_Vendor = function(req, res, next) {
 
     const vendorImgDirectoryName = 'vendorMenuImg_fileArr';
-    const {vendorName:vendor_name, vendorAddreass: vendor_addreass, vendorTel:vendor_tel} = JSON.parse(req.body.vendorData);
+    const {vendorName:vendor_name, vendorAddr: vendor_addreass, vendorTel:vendor_tel} = JSON.parse(req.body.vendorData);
     const mealArr = JSON.parse(req.body.mealArr);
 
 
-    const mealArrForSave = [];
-    for (let i = 0; i < mealArr.length; i += 1) {
-        const mealObj = mealArr[i];
-
-        const name = mealObj.mealName;
-        const price = mealObj.unitPrice;
-
-        console.log(name, price);
-
-        mealArrForSave.push({ name: name, unitPrice: price });
-    }
+    const mealArrForSave = mealArr.map(m => {
+        return {
+            name: m.mealName, unitPrice: m.unitPrice 
+        };
+    });
 
     const uploadedImgsDatas = Array.from(req.files);
     const vendorImageArr = [];
