@@ -17,6 +17,10 @@ const PersonalOrderMealSchema = new Schema({
         type: String,
         required: true
     },
+    mealId:{
+        type:String,
+        required:true
+    },
     ordered_mealName: String,
     vendorId: {
         type: String,
