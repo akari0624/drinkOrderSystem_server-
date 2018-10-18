@@ -1,5 +1,5 @@
 
-const wrapPromiseErrToErrorMsg = (promiseErr) => {
+const wrapErrorObjToErrorMsg = (promiseErr) => {
 
     return {
         errorMsg:promiseErr
@@ -7,7 +7,14 @@ const wrapPromiseErrToErrorMsg = (promiseErr) => {
 
 };
 
+const toJsonResponserMiddleWare = (req,result,next) => {
+
+    req.result = result;
+    next();
+
+};
+
 
 module.exports = {
-    wrapPromiseErrToErrorMsg
+    wrapErrorObjToErrorMsg, toJsonResponserMiddleWare
 };
