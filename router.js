@@ -9,6 +9,7 @@ const passport = require('passport');
 require('./models/auth/facebook/AuthService').applyFaceBookAuthStrategy(passport);
 
 const JWTAuthMiddleware = require('./middleware/jwtStrategyAuthMiddleware');
+const UserService = require('./models/users/UserService');
 
 module.exports = function(app) {
     // 在router.js 裡直接套用 multerFileUploadMiddleware , 就是這樣寫
@@ -26,7 +27,7 @@ module.exports = function(app) {
 
     app.post('/order/join/add_order_meal_to_order', JWTAuthMiddleware.requireJWTAuth, OrderService.addMealToOrder, jsonResponserMiddleware);
 
-
+    app.post('/user/getinfo_by_oauth_id', JWTAuthMiddleware.requireJWTAuth, UserService.getUserDataByOAuthID, jsonResponserMiddleware);
     
 
 
