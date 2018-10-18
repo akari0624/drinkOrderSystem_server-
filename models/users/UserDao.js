@@ -14,7 +14,7 @@ const findOrCreate = async(userModel) => {
         if (!userData) {
 
             console.log('user不存在，準備創出新帳號');
-            const userData = userModel.save();
+            const userData = await userModel.save();
 
             result.userData = userData;
 
