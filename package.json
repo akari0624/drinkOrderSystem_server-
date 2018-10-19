@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./index.js & nodemon ./index_websocket.js",
-    "turn_on": "node ./index.js & node ./index_websocket.js",
+    "prod": "NODE_ENV=production node ./index.js & node ./index_websocket.js",
     "test": "mocha",
     "test:watch": "npm run test -- --watch"
   },
