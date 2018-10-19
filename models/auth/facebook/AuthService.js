@@ -1,5 +1,6 @@
 const FacebookStrategy = require('passport-facebook');
 const AppKeys = require('../../../conf/key');
+const AppUrls = require('../../../conf/urls');
 const UserService = require('../../users/UserService');
 const jwt = require('jwt-simple');
 
@@ -8,7 +9,7 @@ exports.applyFaceBookAuthStrategy = (passportRef) => {
     passportRef.use(new FacebookStrategy({
         clientID: AppKeys.facebookAuthAppId,
         clientSecret: AppKeys.facebookAuthAppSecrect,
-        callbackURL: 'http://localhost:8089/auth/facebook/callback',
+        callbackURL: AppUrls.expressBackendFBRedirectCallbackURL,
         profileFields: ['id', 'displayName', 'photos', 'email']
     }, function (accessToken, refreshToken, profile, cb) {
 
@@ -58,7 +59,7 @@ exports.sendBackFacebookOAuthJWTBYCookie = (req, res) => {
     console.log('tokenForUser', tokenValue);
     
     res.cookie('auth_token', tokenValue);
-    res.redirect(301, 'http://localhost:9999/');
+    res.redirect(301, AppUrls.frontendMainLandingPageRoute);
    
 
 };
