@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const SizeAndPrice = require('./SizeAndPrice');
+const SizeAndPriceSchema = require('./SizeAndPrice');
 
 const MealSchema = new Schema({
     shopId: Number,
     name: { type: String, unique: false },
-    unitPrice: [SizeAndPrice],
-    comment: String
+    unitPrice: [SizeAndPriceSchema],
+    comment: String 
 });
 
 const isNotCompletePriceArr = priceArr => {
@@ -47,8 +47,7 @@ MealSchema.pre('save', function(next) {
     next();
 });
 
-// const ModelClass = mongoose.model('meal',MealSchema);
 
-//module.exports = ModelClass;
 
 module.exports = MealSchema;
+

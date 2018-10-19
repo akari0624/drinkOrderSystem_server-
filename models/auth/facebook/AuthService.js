@@ -37,8 +37,10 @@ exports.applyFaceBookAuthStrategy = (passportRef) => {
 
 };
 
-const tokenForUser = (user) => {
+const tokenForUser =  (user) => {
     const timeStamp = new Date().getTime();
+
+    console.log('user in tokenForUser', user);
     return jwt.encode({
         sub: user.userID,
         iat: timeStamp
@@ -51,9 +53,12 @@ exports.sendBackFacebookOAuthJWTBYCookie = (req, res) => {
     /*透過13行auth/callback handler那裡的處理之後，req裡會多一個叫user的屬性 */
     console.log('in final callback, userdata', req.user);
     const userData = req.user.userData;
-    const token = tokenForUser(userData);
-    console.log('in final callback, userToken',token);
-    res.cookie('auth_token', token);
+    const tokenValue = tokenForUser(userData);
+
+    console.log('tokenForUser', tokenValue);
+    
+    res.cookie('auth_token', tokenValue);
     res.redirect(301, 'http://localhost:9999/');
+   
 
 };

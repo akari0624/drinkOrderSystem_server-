@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const MealSchema = require('./Meal');
 
 
-
 const VendorSchema = new Schema({
 
     vendor_name:String,

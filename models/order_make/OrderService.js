@@ -2,7 +2,7 @@ const OrderModel = require('./Order');
 const VendorModel = require('../Vendor');
 const PersonalOrderMealModel = require('./PersonalOrderMeal');
 const OrderDao = require('./OrderDao');
-const ToErrMsg = require('../utils').wrapPromiseErrToErrorMsg;
+const ToErrMsg = require('../utils').wrapErrorObjToErrorMsg;
 
 const toJsonResponserMiddleWare = (req,result,next) => {
 
