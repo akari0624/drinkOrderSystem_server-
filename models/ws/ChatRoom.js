@@ -51,6 +51,26 @@ class ChatRoom {
     }
 
 
+    broadcastDeleteOrderInfoMessage(msg, senderId) {
+        this.clients.forEach(client => {
+            // if (client.readyState === WebSocket.OPEN) {
+            
+
+            const obj = {
+                type:'braodcastDeleteOrderInfoMessage',
+                senderId,
+                msg,
+            };
+            const toSendJsonString = JSON.stringify(obj);
+            console.log('prepare to send deleteOrderInfo:' + toSendJsonString);
+            client.conn.send(toSendJsonString);
+            // } else {
+            //     console.log('state is not turn to OPEN');
+            // }
+        });
+    }
+
+
     leave(client){
 
         if(client.room !== this){

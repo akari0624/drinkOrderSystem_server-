@@ -78,6 +78,14 @@ server.on('connection', conn => {
             
             chatRoom.broadcastOrderInfoMessage(someone_s_lastAddedOrder, senderId);
             
+        }else if(type === 'sending-message-order-deleted'){
+
+            const chatRoom = chatRooms.get(orderId);
+            const senderId = pMsg.clientId;
+            const someone_s_lastDeletedOrder = pMsg.message;
+            
+
+            chatRoom.broadcastDeleteOrderInfoMessage(someone_s_lastDeletedOrder ,senderId);
         }
     });
 
