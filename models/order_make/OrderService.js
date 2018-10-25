@@ -59,3 +59,22 @@ exports.addMealToOrder = (req, res, next) => {
     );
   
 };
+
+
+
+exports.deleteMealAndDeleteMealInOrderSubDocument = (req, res, next) => {
+
+
+    const mealInOrder = req.body.mealInOrder;
+    const {mealID, orderID} = mealInOrder;
+    console.log('mealId :', mealID);
+
+
+    const pResult = OrderDao.deleteMealAndDeleteMealInOrderSubDocument2(mealID, orderID);
+
+    pResult.then( r =>  toJsonResponserMiddleWare(req, ToErrMsg(r), next)).catch(
+
+        err => toJsonResponserMiddleWare(req, ToErrMsg(err), next)
+    );
+  
+};

@@ -29,6 +29,7 @@ module.exports = function(app) {
 
     app.post('/user/getinfo_by_oauth_id', JWTAuthMiddleware.requireJWTAuth, UserService.getUserDataByOAuthID, jsonResponserMiddleware);
     
+    app.post('/order/delete/delete_ordered_meal', JWTAuthMiddleware.requireJWTAuth, OrderService.deleteMealAndDeleteMealInOrderSubDocument, jsonResponserMiddleware);
 
 
     app.use(passport.initialize());
