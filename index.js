@@ -1,34 +1,21 @@
 const express = require('express');
-const router = require('./router');
 const morgan = require('morgan');
-const mongoose = require('mongoose');   // mongoDB 連線控制 & ORM層
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const CONFIG = require('./conf/generalServerConfig');
+const SERVER_INIT_modal = require('./index_modal');
 
-const PORT = 8089;
 const app = express();
 
-// map global Promise - get rid of warning
-mongoose.Promise = global.Promise;
+console.log('NODE_ENV', process.env.NODE_ENV);
 
-// mongoDB 預設走port 27017          //drink_order_system 就是local mongoDB 裡的database name  有就連,沒有就創出來(超隨性ㄉ) 
-// mongoose 4.3.17
-//mongoose.connect('mongodb://localhost:27017/drink_order_system',{useMongoClient:true});
-
-// mongose 5.3.4
-mongoose.connect('mongodb://localhost:27017/drink_order_system',{
-    useCreateIndex: true,    
-    useNewUrlParser: true
-});
-app.use(morgan('combined'));   // set the logger
-
+app.use(morgan('combined')); // set the logger
 
 app.use(cors());
-app.use(express.static(path.join(__dirname,'/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
-app.disable('x-powered-by');  // 不透露我們是用什麼server  container資訊給 client瀏覽器知道
-
+app.disable('x-powered-by'); // 不透露我們是用什麼server  container資訊給 client瀏覽器知道
 
 // setup bodyParser
 app.use(bodyParser.urlencoded({extended: true}));
@@ -37,10 +24,10 @@ app.use(bodyParser.json({extended: true}));
 
 
 
-router(app);
 
+app.listen(CONFIG.PORT, () => {
 
-app.listen(PORT,
-    ()=>console.log(`server is loadup on port:${PORT}`));
+    // express啟動成功後才連線mongoDB
+    SERVER_INIT_modal.oneExpressInitSuccess(CONFIG.PORT, app);
 
-
+});
