@@ -1,4 +1,4 @@
-const ServerRelated_URL = require('./conf/urls'); 
+const mongoURL = require('./conf/mongoURL'); 
 
 exports.oneExpressInitSuccess = (PORT, expressAppRef) => {
 
@@ -17,7 +17,7 @@ exports.oneExpressInitSuccess = (PORT, expressAppRef) => {
     /**
    * mongose 5.3.4 syntax
    */
-    mongoose.connect(ServerRelated_URL.MONGODB_URL, {
+    mongoose.connect(mongoURL.MONGODB_URL, {
         useCreateIndex: true,
         useNewUrlParser: true
     });
