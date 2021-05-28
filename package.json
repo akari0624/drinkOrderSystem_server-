@@ -31,7 +31,7 @@
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-jwt": "^4.0.0",
-    "ws": "^5.2.2"
+    "ws": "^7.4.5"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
